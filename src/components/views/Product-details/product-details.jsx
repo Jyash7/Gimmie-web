@@ -7,7 +7,7 @@ import Footer from "../second-page/footer";
 import ReviewsComponent from "./reviews";
 import RelatedProducts from "./related-products";
 import { truncate } from "lodash";
-// import { renderStars } from "services/utiles";
+import { renderStars } from "services/utiles";
 import { productDetailsSingle } from "redux/store/slice/dashboard/productSlice";
 
 const ProductDetails = () => {
@@ -17,10 +17,16 @@ const ProductDetails = () => {
   const { loading, productsInfoDetail, error } = useSelector(
     (state) => state.product
   );
+  const starRating = parseFloat(productsInfoDetail.product_star_rating) || 0;
+
+  useEffect(() => {
+    window.scrollTo(0, 0); 
+  }, []);
 
   useEffect(() => {
     if (asin) {
       dispatch(productDetailsSingle(asin));
+
     }
   }, [asin, dispatch]);
 
@@ -28,10 +34,15 @@ const ProductDetails = () => {
 
   const product = productsInfoDetail?.data || {};
 
+
+
+  
+
+
   return (
-    <Box sx={{ background: "#fff" }}>
+    <Box sx={{ background: "#fff" }} id="top">
       <CommonHeader />
-      <Container>
+      <Container >
         <Grid
           container
           sx={{
@@ -74,10 +85,10 @@ const ProductDetails = () => {
               <Typography variant="body2">
                 {truncate(productsInfoDetail.product_description, { length: 200 })}
               </Typography>
-              {/* <Typography variant="body2">
-                {renderStars(productsInfoDetail.product_star_rating)}
-                <span className="mx-2">{productsInfoDetail.product_num_ratings}</span>
-              </Typography> */}
+               <Typography variant="body2">
+                {renderStars(starRating)}
+                <span className="mx-4">{productsInfoDetail.product_num_ratings}</span>
+              </Typography> 
               <Typography variant="h4" sx={{ color: "#000", fontWeight: 700 }}>
                 {productsInfoDetail.product_price}
               </Typography>
@@ -92,11 +103,11 @@ const ProductDetails = () => {
           </Grid>
         </Grid>
         <Box>
-          <Typography variant="h4" sx={{ color: "#000", mt: 3 }}>
+          <Typography variant="h4" sx={{ color: "#000", mt: 5 }}>
             Color
           </Typography>
           <Typography variant="body2" sx={{ color: "#000", fontWeight: 700 }}>
-            {productsInfoDetail?.product_details?.Color}
+            {productsInfoDetail?.product_information?.Color}
           </Typography>
         </Box>
         <Box>

@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useEffect} from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 import "swiper/swiper-bundle.css";
@@ -6,14 +6,17 @@ import { Autoplay, FreeMode, Pagination } from "swiper/modules";
 import { Box, Button, Typography } from "@mui/material";
 import { truncate } from "lodash";
 import { renderStars } from "services/utiles";
-import { useNavigate } from "react-router-dom"; 
+import { useNavigate, useParams } from "react-router-dom";
+
 
 const SwiperComponent = ({ slidesData }) => {
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   const handleProductClick = (asin) => {
-    navigate(`/product/${asin}`);
-  };
+    navigate("/product-detail", { state: { asin } }); // Passing asin in state
+  }
+
+
 
   return (
     <Swiper
@@ -50,7 +53,7 @@ const SwiperComponent = ({ slidesData }) => {
             <SwiperSlide className="p-0" key={index}>
               <Box
                 className="product-cards"
-                onClick={() => handleProductClick(product.asin)} 
+
                 sx={{ cursor: "pointer" }}
               >
                 <Box
@@ -83,19 +86,10 @@ const SwiperComponent = ({ slidesData }) => {
                 <Typography variant="body2">
                   {truncate(product.sales_volume, { length: 25 })}
                 </Typography>
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    mt: 1,
-                  }}
-                >
-                  <Typography>{renderStars(starRating)}</Typography>
-                  <Typography variant="body2">
-                    {product.product_num_ratings}
-                  </Typography>
-                </Box>
+                <Typography variant="body2" className="mt-2">
+                  {renderStars(starRating)}
+                  <span className="mx-4">{product.product_num_ratings}</span>
+                </Typography>
                 <Box
                   sx={{
                     display: "flex",
@@ -105,6 +99,7 @@ const SwiperComponent = ({ slidesData }) => {
                   }}
                 >
                   <Button
+                    onClick={() => handleProductClick(product.asin)}
                     variant="body2"
                     sx={{ display: "flex", alignItems: "center", gap: 1 }}
                     className="card-link"
