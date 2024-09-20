@@ -4,12 +4,11 @@ import AxiosDefault from "services/AxiosDefault";
 
 const product = localStorage.getItem("productsInfo");
 
-
 const productData = JSON.parse(product);
 const initialState = {
   loading: false,
   productsInfo: productData ?? {},
-  productsInfoDetail: productData?? {},
+  productsInfoDetail: productData ?? {},
   error: null,
 };
 
@@ -37,6 +36,24 @@ export const productDetailsSingle = createAsyncThunk(
       const response = await AxiosDefault({
         method: "GET",
         url: `${Api.PRODUCT_DETAILS_SINGLE}?asin=${asin}`,
+      });
+      return response.data;
+    } catch (err) {
+      return rejectWithValue({
+        status: err.response?.data?.status || "error",
+        message: err.response?.data?.message || "Something went wrong",
+      });
+    }
+  }
+);
+export const productDetailsSearch = createAsyncThunk(
+  "product/details/search",
+  async (search, { rejectWithValue }) => {
+    try {
+      console.log(search)
+      const response = await AxiosDefault({
+        method: "GET",
+        url: `${Api.PRODUCT_DETAILS_SEARCH}${search}`,
       });
       return response.data;
     } catch (err) {
@@ -81,11 +98,15 @@ const productSlice = createSlice({
         state.loading = false;
         state.productsInfoDetail = payload?.data ?? {};
         state.error = null;
-      
       })
       .addCase(productDetailsSingle.rejected, (state, { payload }) => {
         state.loading = false;
         state.error = payload;
+      })
+      .addCase(productDetailsSearch.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        state.productsInfoDetail = payload?.data ?? {};
+        state.error = null;
       });
   },
 });

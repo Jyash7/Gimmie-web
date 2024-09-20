@@ -11,7 +11,6 @@ import { renderStars } from "services/utiles";
 import { useNavigate } from "react-router-dom";
 
 const Deals = () => {
-
   const navigate = useNavigate();
   const handleProductClick = (asin) => {
     navigate(`/product/${asin}`);
@@ -31,7 +30,11 @@ const Deals = () => {
   }, [topTwoProducts.length]);
 
   if (loading) {
-    return <Typography variant="h6">Loading...</Typography>;
+    return (
+      <Typography variant="h6" sx={{ textAlign: "center", margin:"auto" }}>
+        Loading...
+      </Typography>
+    );
   }
 
   if (error) {
@@ -39,12 +42,15 @@ const Deals = () => {
   }
 
   if (topTwoProducts.length === 0) {
-    return <Typography variant="h6">No products found</Typography>;
+    return (
+      <Typography variant="h6" sx={{ textAlign: "center",margin:"auto" }}>
+        No products found
+      </Typography>
+    );
   }
 
   const mainProduct = topTwoProducts[currentIndex];
   const starRating = parseFloat(mainProduct.product_star_rating) || 0;
-
 
   return (
     <Box sx={{ background: "#fff" }}>
@@ -67,8 +73,6 @@ const Deals = () => {
             <Grid container>
               <Grid item xs={12} md={3}>
                 <Grid container spacing={2}>
-
-
                   {productsInfo?.products?.slice(0, 4).map((image, index) => (
                     <Grid item md={12} xs={3} key={index}>
                       <Box
@@ -137,7 +141,6 @@ const Deals = () => {
           </Grid>
         </Grid>
 
-
         <Box
           sx={{
             "& .swiper-button-prev::after, & .swiper-button-next::after": {
@@ -168,7 +171,6 @@ const Deals = () => {
               },
             }}
           >
-
             {productsInfo?.products?.length > 0 &&
               productsInfo?.products?.map((slide, index) => {
                 const starRating = parseFloat(slide.product_star_rating) || 0;
@@ -197,7 +199,9 @@ const Deals = () => {
                       </Typography>
                       <Typography variant="body2">
                         {renderStars(starRating)}
-                        <span className="mx-4">{slide.product_num_ratings}</span>
+                        <span className="mx-4">
+                          {slide.product_num_ratings}
+                        </span>
                       </Typography>
                       <Typography
                         variant="h5"

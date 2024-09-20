@@ -22,7 +22,8 @@ const RelatedProducts = () => {
         }}
       >
         <Typography variant="h4" sx={{ color: "#000", fontWeight: 600 }}>
-          Other Products
+          Other Gifts
+          Other Gifts
         </Typography>
       </Box>
         <SwiperComponent slidesData={productsInfo?.products??[]} />

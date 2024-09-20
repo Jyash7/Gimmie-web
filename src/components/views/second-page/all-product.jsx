@@ -16,9 +16,6 @@ const AllProduct = () => {
   return (
     <>
       <Container className="mt-4">
-        <Typography variant="h3" sx={{ color: "#000", fontWeight: 700 }}>
-          Products
-        </Typography>
         <Box
           sx={{
             display: "flex",
@@ -28,7 +25,7 @@ const AllProduct = () => {
           }}
         >
           <Typography variant="h3" sx={{ color: "#000", fontWeight: 600 }}>
-            All Products
+            All Gifts
           </Typography>
         </Box>
         <SwiperComponent slidesData={productsInfo?.products ?? []} />

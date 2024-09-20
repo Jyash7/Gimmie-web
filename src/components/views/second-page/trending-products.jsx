@@ -87,7 +87,7 @@ const TrendingProducts = () => {
       <Container className="mt-5">
         <Box sx={{ display: "flex", justifyContent: "space-between" }}>
           <Typography variant="h3" sx={{ color: "#000", fontWeight: 700 }}>
-            Trending Products
+            Trending Gifts
           </Typography>
         </Box>
         <SwiperComponent slidesData={productsInfo?.products ?? []} />

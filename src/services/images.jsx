@@ -10,7 +10,7 @@ const imageurl = {
   footerImg: BASE_NAME + "/assets/images/footer-img.svg",
   footerBackground: BASE_NAME + "/assets/images/footer-img.png",
   gimmitext: BASE_NAME + "/assets/images/gimmi_text.png",
-  banner1: BASE_NAME + "/assets/images/second-page-banner1.svg",
+  banner1: BASE_NAME + "/assets/images/second-page-banner1.jpg",
   banner2: BASE_NAME + "/assets/images/second-page-banner2.png",
   smallShoes: BASE_NAME + "/assets/images/small-shoes.png",
   shoes: BASE_NAME + "/assets/images/shoes.png",
@@ -25,12 +25,6 @@ const imageurl = {
   smallHeadphone: BASE_NAME + "/assets/images/small-headphone.png",
   headphone: BASE_NAME + "/assets/images/headphone.png",
   addWatch: BASE_NAME + "/assets/images/add-watch.svg",
-
-  
-
-
-
-
 
 };
 export default imageurl;

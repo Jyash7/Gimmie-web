@@ -1,4 +1,4 @@
-import React,{useEffect} from "react";
+import React,{} from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 import "swiper/swiper-bundle.css";
@@ -6,14 +6,14 @@ import { Autoplay, FreeMode, Pagination } from "swiper/modules";
 import { Box, Button, Typography } from "@mui/material";
 import { truncate } from "lodash";
 import { renderStars } from "services/utiles";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate,  } from "react-router-dom";
 
 
 const SwiperComponent = ({ slidesData }) => {
   const navigate = useNavigate();
 
   const handleProductClick = (asin) => {
-    navigate("/product-detail", { state: { asin } }); // Passing asin in state
+    navigate(`/product/${asin}`);
   }
 
 
