@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Box, Container, Grid, Link, Typography } from "@mui/material";
+import { Alert, Box, Container, Grid, Link, Skeleton, Typography } from "@mui/material";
 
 import "swiper/css";
 import "swiper/css/free-mode";
@@ -13,17 +13,22 @@ const TrendingProducts = () => {
   const dispatch = useDispatch();
   const product = localStorage.getItem("productsInfo");
   const data = product !== null ? JSON.parse(product) : {};
-  const { productsInfo } = useSelector((state) => state.product);
+  const { productsInfo, loading, error } = useSelector((state) => state.product);
+  const hasProducts = productsInfo?.products?.length > 0;
+
+
   useEffect(() => {
     if (data?.products === undefined) {
       dispatch(
         productDetails({
           type: "keyword",
-          keyword: "Mobiles",
+          keyword: "",
         })
       );
     }
   }, [data?.products, dispatch]);
+
+
   return (
     <>
       <Box
@@ -47,6 +52,7 @@ const TrendingProducts = () => {
                 position: { sm: "relative", md: "absolute" },
                 margin: "auto",
                 mb: { sm: 2, md: 0 },
+                zIndex: 10
               }}
             />
           </Grid>
@@ -66,18 +72,25 @@ const TrendingProducts = () => {
               target="_blank"
               href="https://www.amazon.com/deals"
               className="check-now-btn"
-              size="small"
-              style={{
-                background: "transparent",
-                color: "#fff",
+              sx={{
+                backgroundColor: "#fff",
+                color: "rgba(55, 92, 101, 1)",
                 border: "2px solid #fff",
-                borderRadius: 10,
-                fontSize: "16px",
-                padding: 6,
+                borderRadius: 2,
+                padding: 1,
+                textDecoration: "none",
+                fontWeight: 600,
+                transition: "all 0.3s ease-in-out",
+                "&:hover": {
+                  backgroundColor: "black",
+                  color: "#fff",
+                  borderColor: "rgba(55, 92, 101, 1)",
+                },
               }}
             >
               Shop Now
             </Link>
+
           </Grid>
         </Grid>
       </Box>
@@ -90,7 +103,27 @@ const TrendingProducts = () => {
             Trending Gifts
           </Typography>
         </Box>
-        <SwiperComponent slidesData={productsInfo?.products ?? []} />
+        {(loading || !hasProducts) && (
+          <Grid container spacing={2}>
+            {Array.from(new Array(4)).map((_, index) => (
+              <Grid item xs={12} sm={6} md={3} key={index}>
+                <Skeleton variant="rectangular" width="100%" height={200} />
+                <Skeleton width="60%" />
+                <Skeleton width="40%" />
+              </Grid>
+            ))}
+          </Grid>
+        )}
+
+        {!loading && hasProducts && (
+          <SwiperComponent slidesData={productsInfo?.products ?? []} />
+        )}
+
+        {error && (
+          <Alert severity="error" sx={{ mt: 2 }}>
+            {error?.message || "An error occurred while fetching the products."}
+          </Alert>
+        )}
       </Container>
 
       {/* ----------add section ---------------- */}

@@ -23,14 +23,12 @@ instance.interceptors.request.use((request) => {
 
 instance.interceptors.response.use(
   (response) => {
-    // console.log("Response", response);
     return response.data;
   },
   (error) => {
     console.log("error", error);
 
-    if (error.response && error.response.status === 401) {
-      // Handle unauthorized access
+    if (error.response && error.response.status === 400) {
       console.error("Unauthorized access:", error);
     } else {
         NotificationManager.error('Something went wrong !');

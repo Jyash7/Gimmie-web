@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Button, Container, Grid, Link, Typography } from "@mui/material";
+import { Box, Button, Container, Grid, Skeleton, Typography } from "@mui/material";
 import { Navigation, Pagination, Mousewheel, Keyboard } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -12,9 +12,7 @@ import { useNavigate } from "react-router-dom";
 
 const Deals = () => {
   const navigate = useNavigate();
-  const handleProductClick = (asin) => {
-    navigate(`/product/${asin}`);
-  };
+
   const { productsInfo, loading, error } = useSelector(
     (state) => state.product
   );
@@ -29,31 +27,38 @@ const Deals = () => {
     }
   }, [topTwoProducts.length]);
 
-  if (loading) {
+  if (loading || error) {
     return (
-      <Typography variant="h6" sx={{ textAlign: "center", margin:"auto" }}>
-        Loading...
-      </Typography>
+      <Grid item xs={12} sm={6} md={3}>
+        <Skeleton variant="rectangular" width="100%" height={200} />
+        <Skeleton width="60%" />
+        <Skeleton width="40%" />
+      </Grid>
     );
   }
 
-  if (error) {
-    return <Typography variant="h6">Error: {error}</Typography>;
-  }
 
   if (topTwoProducts.length === 0) {
     return (
-      <Typography variant="h6" sx={{ textAlign: "center",margin:"auto" }}>
-        No products found
-      </Typography>
+      <Grid item xs={12} sm={6} md={3} sx={{ mt: 3 }}>
+        <Skeleton variant="rectangular" width="100%" height={200} />
+        <Skeleton width="60%" />
+        <Skeleton width="40%" />
+      </Grid>
     );
   }
+
+  const handleProductClick = (asin) => {
+    navigate(`/product/${asin}`);
+  };
 
   const mainProduct = topTwoProducts[currentIndex];
   const starRating = parseFloat(mainProduct.product_star_rating) || 0;
 
   return (
-    <Box sx={{ background: "#fff" }}>
+    <Box sx={{
+      background: "#fff",
+    }}>
       <Container className="mt-5" id="target-section">
         <Typography variant="h3" sx={{ color: "#000", fontWeight: 700, mb: 2 }}>
           Deals For The Day
@@ -61,12 +66,14 @@ const Deals = () => {
         <Grid
           container
           sx={{
+            outline: "1px solid rgb(179, 179, 179)",
             border: "2px solid rgba(179, 179, 179, 1)",
             borderRadius: 8,
             padding: 3,
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
+
           }}
         >
           <Grid item xs={12} md={8}>
@@ -114,7 +121,9 @@ const Deals = () => {
 
           {/* Product details */}
           <Grid item xs={12} md={4}>
-            <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+            <Box sx={{
+              display: "flex", flexDirection: "column", gap: 1,
+            }}>
               <Typography
                 variant="h4"
                 sx={{ color: "#000", fontWeight: 700, lineHeight: 1.3 }}
@@ -186,13 +195,14 @@ const Deals = () => {
                         borderRadius: 6,
                         gap: 1,
                         justifyContent: "space-evenly",
+
                       }}
                     >
                       <Typography
                         variant="h4"
                         sx={{ color: "#000", lineHeight: 1.3 }}
                       >
-                        {truncate(slide.product_title, { length: 30 })}
+                        {truncate(slide.product_title, { length: 25 })}
                       </Typography>
                       <Typography variant="body2">
                         {truncate(slide.sales_volume, { length: 80 })}

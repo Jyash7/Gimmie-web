@@ -1,14 +1,14 @@
-import React, {  } from "react";
+import React, { } from "react";
 import SwiperComponent from "components/common/swiper-component";
-import { Box, Typography } from "@mui/material";
+import { Box, Skeleton, Typography } from "@mui/material";
 import { Container } from "react-bootstrap";
 import { useSelector } from "react-redux";
 
 
 const RelatedProducts = () => {
-  const { productsInfo, loading, error } = useSelector(
+  const { productsInfo, loading } = useSelector(
     (state) => state.product
-  ); 
+  );
 
   return (
     <Container>
@@ -23,10 +23,13 @@ const RelatedProducts = () => {
       >
         <Typography variant="h4" sx={{ color: "#000", fontWeight: 600 }}>
           Other Gifts
-          Other Gifts
         </Typography>
       </Box>
-        <SwiperComponent slidesData={productsInfo?.products??[]} />
+      {loading ? (
+        <Skeleton variant="text" width="100%" height={60} />
+      ) : (
+        <SwiperComponent slidesData={productsInfo?.products ?? []} />
+      )}
     </Container>
   );
 };

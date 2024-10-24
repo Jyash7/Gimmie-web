@@ -8,13 +8,11 @@ import {
   Skeleton,
   List,
   ListItem,
-  ListItemText,
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import CommonHeader from "./common-header";
 import Footer from "../second-page/footer";
-import ReviewsComponent from "./reviews";
 import RelatedProducts from "./related-products";
 import { truncate } from "lodash";
 import { renderStars } from "services/utiles";
@@ -27,7 +25,6 @@ const ProductDetails = () => {
     (state) => state.product
   );
   const starRating = parseFloat(productsInfoDetail?.product_star_rating) || 0;
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -37,14 +34,11 @@ const ProductDetails = () => {
       dispatch(productDetailsSingle(asin));
     }
   }, [asin, dispatch]);
-
   if (error) return <div>{error.message}</div>;
-
-  const product = productsInfoDetail?.data || {};
   const productDetails = productsInfoDetail?.product_details || {};
 
   return (
-    <Box sx={{ background: "#fff" }} id="top">
+    <Box sx={{ background: "#fff" }} id="top" >
       <CommonHeader />
       <Container>
         <Grid
@@ -95,6 +89,7 @@ const ProductDetails = () => {
                   <Skeleton variant="text" width="100%" height={20} />
                   <Skeleton variant="text" width="60%" height={20} />
                   <Skeleton variant="text" width="40%" height={40} />
+                  <Skeleton variant="text" width="60%" height={30} />
                 </>
               ) : (
                 <>
@@ -122,28 +117,25 @@ const ProductDetails = () => {
                     {productsInfoDetail?.product_price}
                   </Typography>
                   <Link
-                    href={`${productsInfoDetail?.product_url}?id=customId`}
+                    href={`${productsInfoDetail?.product_url}?customId=${'gimmieai04-20'}`}
                     className="all-btn"
                     target="_blank"
                   >
                     Buy Now
                   </Link>
+                  <Typography
+                    variant="body2"
+                    sx={{ color: "#375C65", fontWeight: 600 }}
+                  >
+                    As an Amazon Associate Gimmie earns from qualifying purchases.
+                  </Typography>
                 </>
               )}
             </Box>
           </Grid>
         </Grid>
 
-        <Box>
-          <Typography variant="h4" sx={{ color: "#000", mt: 5 }}>
-            Color
-          </Typography>
-          {loading ? (
-            <Skeleton variant="text" width="40%" height={20} />
-          ) : (
-            <Typography variant="body1">{productDetails.Color}</Typography>
-          )}
-        </Box>
+
 
         <Box>
           <Typography variant="h4" sx={{ color: "#000", mt: 5 }}>
@@ -152,26 +144,26 @@ const ProductDetails = () => {
           <List>
             {loading
               ? [...Array(5)].map((_, index) => (
-                  <ListItem key={index}>
-                    <Skeleton variant="text" width="80%" height={20} />
-                  </ListItem>
-                ))
+                <ListItem key={index}>
+                  <Skeleton variant="text" width="80%" height={20} />
+                </ListItem>
+              ))
               : Object.keys(productDetails).map((key) => (
-                  <ListItem
-                    key={key}
-                    sx={{ display: "flex", alignItems: "center", justifyContent:'space-between',  gap: 10 }}
+                <ListItem
+                  key={key}
+                  sx={{ display: "flex", alignItems: "center", justifyContent: 'space-between', gap: 10 }}
+                >
+                  <Typography
+                    variant="body1"
+                    sx={{ fontWeight: "bold", color: "black" }}
                   >
-                    <Typography
-                      variant="body1"
-                      sx={{ fontWeight: "bold", color: "black" }}
-                    >
-                      {key}
-                    </Typography>
-                    <Typography variant="body2">
-                      {productDetails[key]}
-                    </Typography>
-                  </ListItem>
-                ))}
+                    {key}
+                  </Typography>
+                  <Typography variant="body2">
+                    {productDetails[key]}
+                  </Typography>
+                </ListItem>
+              ))}
           </List>
         </Box>
 
@@ -188,7 +180,7 @@ const ProductDetails = () => {
           )}
         </Box>
 
-        <ReviewsComponent />
+        {/* <ReviewsComponent /> */}
         <RelatedProducts />
       </Container>
       <Footer />

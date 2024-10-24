@@ -50,7 +50,6 @@ export const productDetailsSearch = createAsyncThunk(
   "product/details/search",
   async (search, { rejectWithValue }) => {
     try {
-      console.log(search)
       const response = await AxiosDefault({
         method: "GET",
         url: `${Api.PRODUCT_DETAILS_SEARCH}${search}`,

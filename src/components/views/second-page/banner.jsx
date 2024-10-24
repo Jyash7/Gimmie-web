@@ -39,19 +39,28 @@ const SecondPageBanner = () => {
                 }}
               >
                 <Typography
-                  sx={{ lineHeight: 1.1, mx: { xs: 0, md: 3 } }}
+                  sx={{
+                    lineHeight: 1.1,
+                    mx: { xs: 0, md: 3 },
+                    fontSize: { md: "42px", sm: "32px", xs: "20px" },
+                  }}
                   variant="h2"
                 >
-                Find the perfect gift every time, with Gimmie!
+                  Find the perfect gift every time, with Gimmie!
                 </Typography>
 
                 <Typography
                   className="mt-2"
                   variant="body1"
-                  sx={{ color: "#D3D3D3", mx: { xs: 0, md: 3 } }}
+                  sx={{
+                    color: "#D3D3D3",
+                    mx: { xs: 0, md: 3 },
+                    fontSize: { md: "18px", sm: "16px", xs: "12px" },
+                  }}
                 >
-                Simply tell Gimmie a bit about the person you are shopping for and let our proprietary AI-search do the rest. <br/>
-                It's kind of like Santa got an AI!
+                  Simply tell Gimmie a bit about the person you are shopping for
+                  and let our proprietary AI-search do the rest. It's kind of
+                  like Santa got an AI!
                 </Typography>
                 <Button
                   onClick={handleScroll}
@@ -66,6 +75,8 @@ const SecondPageBanner = () => {
                     p: "10px 40px",
                     borderRadius: 2,
                     mx: { xs: 0, md: 3 },
+                    fontWeight: 600
+
                   }}
                 >
                   Explore More

@@ -1,13 +1,12 @@
-import React,{} from "react";
+import React, { } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 import "swiper/swiper-bundle.css";
 import { Autoplay, FreeMode, Pagination } from "swiper/modules";
 import { Box, Button, Typography } from "@mui/material";
 import { truncate } from "lodash";
 import { renderStars } from "services/utiles";
-import { useNavigate,  } from "react-router-dom";
-
+import { useNavigate, } from "react-router-dom";
+import he from "he";
 
 const SwiperComponent = ({ slidesData }) => {
   const navigate = useNavigate();
@@ -16,11 +15,9 @@ const SwiperComponent = ({ slidesData }) => {
     navigate(`/product/${asin}`);
   }
 
-
-
   return (
     <Swiper
-      style={{ padding: "5px" }}
+      style={{ padding: "15px", borderRadius: "10px" }}
       slidesPerView={4}
       spaceBetween={50}
       breakpoints={{
@@ -48,13 +45,10 @@ const SwiperComponent = ({ slidesData }) => {
       {slidesData?.length > 0 &&
         slidesData.map((product, index) => {
           const starRating = parseFloat(product.product_star_rating) || 0;
-
           return (
             <SwiperSlide className="p-0" key={index}>
               <Box
                 className="product-cards"
-
-                sx={{ cursor: "pointer" }}
               >
                 <Box
                   className="card-box"
@@ -65,7 +59,7 @@ const SwiperComponent = ({ slidesData }) => {
                     src={product.product_photo}
                     alt={product.product_title}
                     sx={{
-                      height: 150,
+                      height: 160,
                       width: "100%",
                       objectFit: "contain",
                       mixBlendMode: "darken",
@@ -81,9 +75,9 @@ const SwiperComponent = ({ slidesData }) => {
                     mt: 3,
                   }}
                 >
-                  {truncate(product.product_title, { length: 40 })}
+                  {truncate(he.decode(product.product_title), { length: 30 })}
                 </Typography>
-                <Typography variant="body2">
+                <Typography variant="body2" className="mt-2">
                   {truncate(product.sales_volume, { length: 25 })}
                 </Typography>
                 <Typography variant="body2" className="mt-2">
@@ -95,17 +89,13 @@ const SwiperComponent = ({ slidesData }) => {
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "flex-end",
-                    mt: 1,
                   }}
                 >
                   <Button
                     onClick={() => handleProductClick(product.asin)}
-                    variant="body2"
-                    sx={{ display: "flex", alignItems: "center", gap: 1 }}
                     className="card-link"
                   >
-                    View Product
-                    <ArrowRightAltIcon />
+                    View Gift
                   </Button>
                 </Box>
               </Box>

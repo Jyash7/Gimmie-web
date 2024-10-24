@@ -1,13 +1,15 @@
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 import React from "react";
 import imageurl from "services/images";
 
+
 const Footer = () => {
+
   return (
     <Box
       sx={{
         mt: 8,
-        paddingY: 1,
+        paddingY: 4,
         backgroundImage: `url(${imageurl.footerBackground})`,
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
@@ -49,14 +51,11 @@ const Footer = () => {
             >
               Download Our App On Play Store
             </Typography>
-            <Typography
-              variant="body1"
-              sx={{ color: "#000", marginBottom: 2 }}
-            >
+            <Typography variant="body1" sx={{ color: "#000", marginBottom: 2 }}>
               Coming Soon...
             </Typography>
 
-            <Box className="d-flex gap-4">
+            <Box sx={{ display: "flex", flexDirection: { md: 'row', xs: 'column' }, alignItems: "center", gap: 4 }}>
               <img
                 src={imageurl.googleplay}
                 alt="Google Play Store"
@@ -74,6 +73,19 @@ const Footer = () => {
                   maxWidth: "120px",
                 }}
               />
+            </Box>
+            <Box className="subscribe-container">
+              <TextField
+                placeholder="Email Address"
+                variant="outlined"
+                className="subscribe-input"
+              />
+              <Button
+                variant="contained"
+                className="subscribe-button"
+              >
+                Subscribe
+              </Button>
             </Box>
           </Box>
         </Grid>

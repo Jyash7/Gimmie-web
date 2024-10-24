@@ -1,6 +1,5 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useState, useRef } from "react";
 import {
-  Autocomplete,
   Box,
   IconButton,
   TextField,
@@ -14,36 +13,16 @@ import AllProduct from "./all-product";
 import Footer from "./footer";
 import imageurl from "services/images";
 import { useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import SearchIcon from "@mui/icons-material/Search";
 import { productDetailsSearch } from "redux/store/slice/dashboard/productSlice";
 
-const truncateTitle = (title, maxLength = 40) => {
-  if (title.length > maxLength) {
-    return title.substring(0, maxLength) + "...";
-  }
-  return title;
-};
-
-const HeaderSecond = () => {
+const HeaderSecond = ({ loading }) => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const { productsInfoDetail, loading } = useSelector((state) => state.product);
-  const [productList, setProductList] = useState([]);
+  // const dispatch = useDispatch();
   const [searchInput, setSearchInput] = useState("");
   const [isExpanded, setIsExpanded] = useState(false);
   const searchBarRef = useRef(null);
-
-  useEffect(() => {
-    const products = productsInfoDetail?.products ?? [];
-    setProductList(products);
-  }, [productsInfoDetail]);
-
-  const handleProductSelect = (event, newValue) => {
-    if (newValue?.asin) {
-      navigate(`/product/${newValue.asin}`);
-    }
-  };
 
   const handleIconClick = () => {
     setIsExpanded(!isExpanded);
@@ -58,12 +37,8 @@ const HeaderSecond = () => {
 
   const handleKeyPress = (event) => {
     if (event.key === "Enter" && searchInput.trim()) {
-      dispatch(productDetailsSearch(searchInput));
-      setIsExpanded(true);
-
-      if (searchBarRef.current) {
-        searchBarRef.current.focus();
-      }
+      // dispatch(productDetailsSearch(searchInput));
+      navigate(`/search-gifts?query=${searchInput}`);
     }
   };
 
@@ -80,10 +55,9 @@ const HeaderSecond = () => {
             justifyContent: "space-between",
             alignItems: "center",
             position: "relative",
-            flexDirection: { xs: "column", md: "row" }, // Column for small screens, row for larger screens
+            flexDirection: { xs: "column", md: "row" },
           }}
         >
-          {/* Empty box for flexible space */}
           <Box className="empty" sx={{ flex: 1 }}></Box>
 
           {/* Logo and Title */}
@@ -125,26 +99,25 @@ const HeaderSecond = () => {
           <Box
             sx={{
               flex: 1,
-              textAlign: { xs: "center", md: "right" }, 
+              textAlign: { xs: "center", md: "right" },
               marginRight: { md: "10px", xs: 0 },
-              marginTop: { xs: 2, md: 0 }, 
+              marginTop: { xs: 2, md: 0 },
             }}
           >
             {/* Search Icon */}
             {!isExpanded && (
               <IconButton onClick={handleIconClick} disableRipple={true}>
-                <SearchIcon />
+                <SearchIcon fontSize="large" />
               </IconButton>
             )}
             <Box
               sx={{
                 display: isExpanded ? "block" : "none",
-                width: isExpanded ? { xs: "200px", md: "400px" } : "0px",
                 opacity: isExpanded ? 1 : 0,
-                position: { xs: "relative", md: "absolute" }, 
+                position: { xs: "relative", md: "absolute" },
                 right: { md: "20px" },
                 top: { md: "50%" },
-                transform: { md: "translateY(-50%)", xs: "translateY(-20%)" }, 
+                transform: { md: "translateY(-50%)", xs: "translateY(-20%)" },
                 transition: "width 0.5s ease-in-out, opacity 0.3s ease-in-out",
                 overflow: "hidden",
                 ml: 2,
@@ -154,45 +127,24 @@ const HeaderSecond = () => {
                   : "none",
               }}
             >
-              <Autocomplete
-                options={productList}
-                getOptionLabel={(option) =>
-                  truncateTitle(option.product_title || "Unknown Product")
-                }
-                onChange={handleProductSelect}
-                renderOption={(props, option) => (
-                  <li {...props} key={option.asin}>
-                    {truncateTitle(option.product_title || "Unknown Product")}
-                  </li>
-                )}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    variant="outlined"
-                    placeholder="Search for Gifts"
-                    value={searchInput}
-                    onChange={handleSearchChange}
-                    onKeyPress={handleKeyPress}
-                    inputRef={searchBarRef}
-                    sx={{
-                      "& .MuiOutlinedInput-root": {
-                        borderRadius: "25px",
-                      },
-                    }}
-                    InputProps={{
-                      ...params.InputProps,
-                      endAdornment: (
-                        <>
-                          {loading ? (
-                            <CircularProgress size={20} color="inherit" />
-                          ) : null}
-                          {params.InputProps.endAdornment}
-                        </>
-                      ),
-                    }}
-                  />
-                )}
-                isOptionEqualToValue={(option, value) => option.asin === value}
+              <TextField
+                variant="outlined"
+                placeholder="Search for Gifts"
+                value={searchInput}
+                onChange={handleSearchChange}
+                onKeyPress={handleKeyPress}
+                inputRef={searchBarRef}
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    borderRadius: "25px",
+                  },
+                  width: isExpanded ? { xs: "200px", md: "300px", lg: "400px" } : "0px",
+                }}
+                InputProps={{
+                  endAdornment: loading ? (
+                    <CircularProgress size={20} color="inherit" />
+                  ) : null,
+                }}
               />
             </Box>
           </Box>
