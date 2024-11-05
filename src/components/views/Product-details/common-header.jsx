@@ -15,6 +15,8 @@ const CommonHeader = () => {
           background: "#375C65",
           color: "white",
           textAlign: "center",
+          cursor: "pointer"
+
         }}
       >
         <img

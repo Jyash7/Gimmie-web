@@ -99,8 +99,8 @@ const TrendingProducts = () => {
 
       <Container className="mt-5">
         <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-          <Typography variant="h3" sx={{ color: "#000", fontWeight: 700 }}>
-            Trending Gifts
+          <Typography variant="h4" sx={{ color: "#000", fontWeight: 700 }}>
+            Top gifts of the season for people under 30
           </Typography>
         </Box>
         {(loading || !hasProducts) && (

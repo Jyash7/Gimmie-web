@@ -1,45 +1,30 @@
 import { Box, Container, Typography, Skeleton, Grid, Alert } from "@mui/material";
 import SwiperComponent from "components/common/swiper-component";
-import { useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
 import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/pagination";
+import { productDetailsUnder50 } from "redux/store/slice/dashboard/productSlice";
 
 const AllProduct = () => {
-  const { productsInfo, loading, error } = useSelector((state) => state.product);
-  const [filteredProducts, setFilteredProducts] = useState([]);
-  const keyword = "Most popular products of the year for people under 50";
-  
-  const hasProducts = productsInfo?.products?.length > 0;
+  const dispatch = useDispatch();
+  const product = localStorage.getItem("productsInfo");
+  const data = product !== null ? JSON.parse(product) : {};
+  const { productsInfo50, loading, error } = useSelector((state) => state.product);
+  const hasProducts = productsInfo50?.products?.length > 0;
 
-  // Function to filter products by keyword
-  const filterProductsByKeyword = (products) => {
-    return products.filter((product) =>
-      // Assuming your product has a 'description' or 'tags' field where the keyword can be matched
-      product.description?.toLowerCase().includes(keyword.toLowerCase()) ||
-      product.tags?.some(tag => tag.toLowerCase().includes(keyword.toLowerCase()))
-    );
-  };
 
   useEffect(() => {
-    if (hasProducts) {
-      // Filter products that match the keyword
-      const matchedProducts = filterProductsByKeyword(productsInfo.products);
-      setFilteredProducts(matchedProducts);
-
-      // Save the filtered products to localStorage
-      localStorage.setItem("popularProducts", JSON.stringify(matchedProducts));
+    if (data?.products === undefined) {
+      dispatch(
+        productDetailsUnder50({
+          type: "keyword",
+          keyword: "",
+        })
+      );
     }
-  }, [productsInfo, hasProducts]);
-
-  // Load products from localStorage if available
-  useEffect(() => {
-    const storedProducts = JSON.parse(localStorage.getItem("popularProducts"));
-    if (storedProducts) {
-      setFilteredProducts(storedProducts);
-    }
-  }, []);
+  }, [data?.products, dispatch]);
 
   return (
     <>
@@ -52,8 +37,8 @@ const AllProduct = () => {
             mt: 2,
           }}
         >
-          <Typography variant="h3" sx={{ color: "#000", fontWeight: 600 }}>
-            Most Popular Gifts for People Under 50
+          <Typography variant="h4" sx={{ color: "#000", fontWeight: 600 }}>
+            Most popular products of the year for people under 50
           </Typography>
         </Box>
 
@@ -69,8 +54,8 @@ const AllProduct = () => {
           </Grid>
         )}
 
-        {!loading && filteredProducts.length > 0 && (
-          <SwiperComponent slidesData={filteredProducts} />
+        {!loading && hasProducts && (
+          <SwiperComponent slidesData={productsInfo50?.products ?? []} />
         )}
 
         {error && (
@@ -79,11 +64,6 @@ const AllProduct = () => {
           </Alert>
         )}
 
-        {!loading && filteredProducts.length === 0 && (
-          <Typography sx={{ mt: 4, textAlign: "center" }}>
-            No products found matching the keyword.
-          </Typography>
-        )}
       </Container>
     </>
   );

@@ -75,10 +75,7 @@ const SwiperComponent = ({ slidesData }) => {
                     mt: 3,
                   }}
                 >
-                  {truncate(he.decode(product.product_title), { length: 30 })}
-                </Typography>
-                <Typography variant="body2" className="mt-2">
-                  {truncate(product.sales_volume, { length: 25 })}
+                  {truncate(he.decode(product.product_title), { length: 50 })}
                 </Typography>
                 <Typography variant="body2" className="mt-2">
                   {renderStars(starRating)}

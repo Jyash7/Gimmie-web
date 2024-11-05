@@ -56,11 +56,11 @@ const HeaderSecond = ({ loading }) => {
             alignItems: "center",
             position: "relative",
             flexDirection: { xs: "column", md: "row" },
+            cursor: "pointer"
           }}
         >
           <Box className="empty" sx={{ flex: 1 }}></Box>
 
-          {/* Logo and Title */}
           <Box
             sx={{
               display: "flex",
